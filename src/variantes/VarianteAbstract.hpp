@@ -12,7 +12,7 @@ public:
             return 2;
         else return 0;
     }
-    virtual ~VarianteAbstract() {}
+    virtual ~VarianteAbstract() = default;
 };
 
 #endif //SERVEURBRAVERATS_VARIANTEABSTRACT_HPP

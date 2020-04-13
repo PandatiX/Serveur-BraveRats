@@ -7,10 +7,10 @@
 class VarianteRandom : public VarianteAbstract {
 public:
     VarianteRandom() = default;
-    int getScoreMax() const {
+    int getScoreMax() const override {
         return 4;
     }
-    void init(int (&cardsPlayer1)[8], int (&cardsPlayer2)[8]) {
+    void init(int (&cardsPlayer1)[8], int (&cardsPlayer2)[8]) override {
         int cards[8] = {2, 2, 2, 2, 2, 2, 2, 2};
         int tmp;
         //CardsPlayer1
@@ -26,7 +26,7 @@ public:
             cardsPlayer2[i] = cards[i];
         }
     }
-    ~VarianteRandom() = default;
+    ~VarianteRandom() override = default;
 };
 
 #endif //SERVEURBRAVERATS_VARIANTERANDOM_HPP
