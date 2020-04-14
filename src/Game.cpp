@@ -186,6 +186,22 @@ int Game::getScore(Player *player) {
     return -1;
 }
 
+int* Game::getCards(Player* player) {
+    int* cards = new int[8];
+    if (gameManager->isKnown(player)) {
+        if (player == player1) {
+            for (int i = 0; i < 8; i++) {
+                cards[i] = cardsPlayer1[i];
+            }
+        } else if (player == player2) {
+            for (int i = 0; i < 8; i++) {
+                cards[i] = cardsPlayer2[i];
+            }
+        }
+    }
+    return cards;
+}
+
 bool Game::play(Player* player, int card, VarianteAbstract* _variante) {
     if (card >= 0 && card <=7) {
         if (player == player1 && canPlay(player, card)) {

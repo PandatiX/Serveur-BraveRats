@@ -32,13 +32,16 @@ public:
     int cardBefore(Player*);
     int spyCard(Player*);
     int getScore(Player*);
+    int* getCards(Player*);
     bool isJoinable();
     bool hasBegun();
     bool isOpenMultiplayer();
     bool canPlay(Player*, int);
+    bool play(Player*, int, VarianteAbstract*);
     std::list<Move*> getHistory() const;
     Player *getCreator() const;
     Player *getPlayer2() const;
+    Game *setSecondPlayer(Player*);
     VarianteAbstract *getVariante() const;
 
     void startGame();
@@ -47,8 +50,6 @@ public:
     void score();
     void leave(Player*);
     void setVariante(VarianteAbstract*);
-    Game * setSecondPlayer(Player*);
-    bool play(Player*, int, VarianteAbstract*);
 
     ~Game();
 };

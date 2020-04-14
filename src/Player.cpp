@@ -5,7 +5,7 @@ void sendMessage(int fd, const std::string& outputString) {
     std::string sMsg = outputString;
     if (sMsg.length() % MAXDATASIZE == 0)
         sMsg.append("");
-    std::cout << "Server sen: " << sMsg.c_str() << std::endl;
+    std::cout << "Server send: " << sMsg.c_str() << std::endl;
     send(fd, sMsg.c_str(), sMsg.length()+1, MSG_NOSIGNAL);
 }
 
@@ -155,7 +155,13 @@ void Player::play(int sockfd, struct sockaddr_in their_addr, bool* threadJoinabl
 
             if (_game != nullptr && !_game->hasBegun()) {
                 _game->startGame();
-                stream << "REVD 200";
+                int* cards = _game->getCards(_this);
+                nlohmann::json j, jArr = nlohmann::json::array();
+                for (int i = 0; i < sizeof(cards); i++) {
+                    jArr.push_back(cards[i]);
+                }
+                j["cards"] = jArr;
+                stream << "CRDD " << j.dump();
             }
 
         } else if (buffer.substr(0, 4) == "CRDP") {
