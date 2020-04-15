@@ -155,13 +155,29 @@ void Player::play(int sockfd, struct sockaddr_in their_addr, bool* threadJoinabl
 
             if (_game != nullptr && !_game->hasBegun()) {
                 _game->startGame();
-                int* cards = _game->getCards(_this);
-                nlohmann::json j, jArr = nlohmann::json::array();
-                for (int i = 0; i < sizeof(cards); i++) {
-                    jArr.push_back(cards[i]);
+
+                Player* player1 = _game->getCreator();
+                Player* player2 = _game->getPlayer2();
+
+                int *cardsP1 = _game->getCards(player1);
+                int *cardsP2 = _game->getCards(player2);
+
+                nlohmann::json jOut, jP1, jP2, jArrP1 = nlohmann::json::array(), jArrP2 = nlohmann::json::array();
+
+                for (int i = 0; i < 8; i++) {
+                    jArrP1.push_back(cardsP1[i]);
+                    jArrP2.push_back(cardsP2[i]);
                 }
-                j["cards"] = jArr;
-                stream << "CRDD " << j.dump();
+
+                if (_this == player1) {
+                    jOut["self"] = jArrP1;
+                    jOut["other"] = jArrP2;
+                } else {
+                    jOut["self"] = jArrP2;
+                    jOut["other"] = jArrP1;
+                }
+
+                stream << "CRDD " << jOut.dump();
             }
 
         } else if (buffer.substr(0, 4) == "CRDP") {
@@ -215,12 +231,15 @@ void Player::play(int sockfd, struct sockaddr_in their_addr, bool* threadJoinabl
                     bool firstPlayer = _game->getCreator() == _this;
                     if (firstPlayer || _game->getPlayer2() == _this) {
 
-                        for (Move *m : historyList) {
+                        for(Move* m : historyList) {
                             jTmp["dt"] = std::chrono::system_clock::to_time_t(m->getDatetime());
-                            if (firstPlayer)
-                                jTmp["j"] = m->getMovePlayer1();
-                            else
-                                jTmp["j"] = m->getMovePlayer2();
+                            if (firstPlayer) {
+                                jTmp["self"] = m->getMovePlayer1();
+                                jTmp["other"] = m->getMovePlayer2();
+                            } else {
+                                jTmp["self"] = m->getMovePlayer2();
+                                jTmp["other"] = m->getMovePlayer1();
+                            }
                             arr.push_back(jTmp);
                         }
                         j["play"] = arr;
@@ -234,12 +253,16 @@ void Player::play(int sockfd, struct sockaddr_in their_addr, bool* threadJoinabl
                     bool firstPlayer = _game->getCreator() == _this;
                     if (firstPlayer || _game->getPlayer2() == _this) {
 
-                        for (Move *m : historyList) {
-                            jTmp["dt"] = std::chrono::system_clock::to_time_t(m->getDatetime());
-                            if (firstPlayer)
-                                jTmp["j"] = m->getMovePlayer2();
-                            else
-                                jTmp["j"] = m->getMovePlayer1();
+                        Move *lastMove = *historyList.rbegin();
+                        if (lastMove != nullptr) {
+                            jTmp["dt"] = std::chrono::system_clock::to_time_t(lastMove->getDatetime());
+                            if (firstPlayer) {
+                                jTmp["self"] = lastMove->getMovePlayer1();
+                                jTmp["other"] = lastMove->getMovePlayer2();
+                            } else {
+                                jTmp["self"] = lastMove->getMovePlayer2();
+                                jTmp["other"] = lastMove->getMovePlayer1();
+                            }
                             arr.push_back(jTmp);
                         }
                         j["play"] = arr;
