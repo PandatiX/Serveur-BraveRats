@@ -187,17 +187,12 @@ int Game::getScore(Player *player) {
 }
 
 int* Game::getCards(Player* player) {
-    int* cards = new int[8];
     if (player == player1) {
-        for (int i = 0; i < 8; i++) {
-            cards[i] = cardsPlayer1[i];
-        }
-    } else if (player == player2) {
-        for (int i = 0; i < 8; i++) {
-            cards[i] = cardsPlayer2[i];
-        }
+        return cardsPlayer1;
+    } else if (isOpenMultiplayer() && player == player2) {
+        return cardsPlayer2;
     }
-    return cards;
+    return new int[8];
 }
 
 bool Game::play(Player* player, int card, VarianteAbstract* _variante) {
