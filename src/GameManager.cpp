@@ -110,7 +110,9 @@ void GameManager::addPlayer(Player *player) {
         std::cout << (*it)->getSockaddrIn().sin_port << std::endl;
         if ((*it)->joinable()) {
             (*it)->join();
+            mutexPlayers.unlock();
             removePlayer((*it));
+            mutexPlayers.lock();
             it = players.begin();
         }
     }
