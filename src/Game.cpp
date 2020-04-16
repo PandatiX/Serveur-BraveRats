@@ -1,6 +1,6 @@
 #include "Game.hpp"
 
-Game::Game(Player *_player1) {
+Game::Game(Player *_player1) : rd(), mt(rd()), dist(0, 7) {
     //Init as singleplayer
     player1 = _player1;
     player2 = nullptr;
@@ -159,7 +159,7 @@ int Game::spyCard(Player* player) {
 
             if (!multiplayer) {
                 do {
-                    cardP2 = rand() % 8;
+                    cardP2 = dist(mt);
                 } while (cardsPlayer2[cardP2] == 0);
                 cardsPlayer2[cardP2]--;
             } else {
@@ -218,7 +218,7 @@ bool Game::play(Player* player, int card, VarianteAbstract* _variante) {
             }
         } else if (cardP2 == -1) {
             do {
-                cardP2 = rand() % 8;
+                cardP2 = dist(mt);
             } while (cardsPlayer2[cardP2] == 0);
             cardsPlayer2[cardP2]--;
         }

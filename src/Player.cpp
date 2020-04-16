@@ -23,7 +23,7 @@ struct sockaddr_in Player::getSockaddrIn() {
     return their_addr;
 }
 
-bool Player::joinable() {
+bool Player::joinable() const {
     return threadJoinable;
 }
 

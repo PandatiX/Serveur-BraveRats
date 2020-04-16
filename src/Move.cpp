@@ -10,10 +10,10 @@ std::chrono::time_point<std::chrono::system_clock> Move::getDatetime() {
     return datetime;
 }
 
-int Move::getMovePlayer1() {
+int Move::getMovePlayer1() const {
     return mvP1;
 }
 
-int Move::getMovePlayer2() {
+int Move::getMovePlayer2() const {
     return mvP2;
 }

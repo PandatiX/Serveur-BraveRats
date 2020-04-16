@@ -13,8 +13,8 @@ public:
     Move(int, int);
 
     std::chrono::time_point<std::chrono::system_clock> getDatetime();
-    int getMovePlayer1();
-    int getMovePlayer2();
+    int getMovePlayer1() const;
+    int getMovePlayer2() const;
 
 };
 

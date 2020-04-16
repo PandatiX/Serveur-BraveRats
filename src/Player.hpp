@@ -24,7 +24,7 @@ public:
     Player(int, struct sockaddr_in);
 
     struct sockaddr_in getSockaddrIn();
-    bool joinable();
+    bool joinable() const;
 
     void start();
     void join();

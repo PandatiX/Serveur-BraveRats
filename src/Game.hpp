@@ -2,6 +2,7 @@
 #define SERVEURBRAVERATS_GAME_HPP
 
 #include <netinet/in.h>
+#include <random>
 
 #include "Player.hpp"
 #include "Move.hpp"
@@ -25,6 +26,11 @@ private:
     BarrierCard *barrierP1, *barrierP2;
     VarianteAbstract *variante;
     std::list<Move*> moves;
+
+    //random number generation
+    std::random_device rd;
+    std::mt19937 mt;
+    std::uniform_int_distribution<int> dist;
 
 public:
     Game(Player*);
