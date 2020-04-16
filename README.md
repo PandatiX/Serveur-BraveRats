@@ -1,4 +1,4 @@
-#Serveur BraveRats
+# Serveur BraveRats
 Serveur BraveRats is a C/C++11 server prototype to play BraveRats.
 
 ## Dependencies
