@@ -17,7 +17,6 @@ Game::Game(Player *_player1) : rd(), mt(rd()), dist(0, 7) {
 
     //Init gameplay
     variante = new VarianteDefault();
-    variante->init(cardsPlayer1, cardsPlayer2);
 
     gameManager = GameManager::getInstance();
 }
@@ -60,6 +59,7 @@ void Game::openMultiplayer() {
 }
 
 void Game::startGame() {
+    variante->init(cardsPlayer1, cardsPlayer2);
     if (multiplayer)
         barrier->wait();
     began = true;
@@ -189,13 +189,13 @@ int Game::getScore(Player *player) {
 int* Game::getCards(Player* player) {
     if (player == player1) {
         return cardsPlayer1;
-    } else if (isOpenMultiplayer() && player == player2) {
+    } else if (player == player2) {
         return cardsPlayer2;
     }
-    return new int[8];
+    return new int[8]{};
 }
 
-bool Game::play(Player* player, int card, VarianteAbstract* _variante) {
+bool Game::play(Player* player, int card) {
     if (card >= 0 && card <=7) {
         if (player == player1 && canPlay(player, card)) {
             cardP1 = card;
@@ -225,7 +225,8 @@ bool Game::play(Player* player, int card, VarianteAbstract* _variante) {
             std::cout << "Winner: " << winner << std::endl;
         }
 
-        if (player == player1 && _variante->whoWon(scoreP1, scoreP2) != 0) {
+        //If creator and game have to end
+        if (player == player1 && variante->whoWon(scoreP1, scoreP2) != 0) {
             GameManager::getInstance()->endGame(player);
         }
 
@@ -280,6 +281,12 @@ Player* Game::getPlayer2() const {
 
 VarianteAbstract *Game::getVariante() const {
     return variante;
+}
+
+void Game::setVariante(VarianteAbstract *variante) {
+    if (variante != nullptr) {
+        this->variante = variante;
+    }
 }
 
 Game::~Game() {

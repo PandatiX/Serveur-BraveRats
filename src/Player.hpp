@@ -23,6 +23,7 @@ private:
 public:
     Player(int, struct sockaddr_in);
 
+    int getSockfd() const;
     struct sockaddr_in getSockaddrIn();
     bool joinable() const;
 

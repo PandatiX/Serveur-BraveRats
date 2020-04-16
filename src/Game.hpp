@@ -1,6 +1,12 @@
 #ifndef SERVEURBRAVERATS_GAME_HPP
 #define SERVEURBRAVERATS_GAME_HPP
 
+#define VARIANTE_DEFAULT 0
+#define VARIANTE_FASTRAT 1
+#define VARIANTE_PRINCESS 2
+#define VARIANTE_RANDOM 3
+#define VARIANTE_TRAITOR 4
+
 #include <netinet/in.h>
 #include <random>
 
@@ -43,7 +49,7 @@ public:
     bool hasBegun() const;
     bool isOpenMultiplayer() const;
     bool canPlay(Player*, int);
-    bool play(Player*, int, VarianteAbstract*);
+    bool play(Player*, int);
     std::list<Move*> getHistory() const;
     Player *getCreator() const;
     Player *getPlayer2() const;

@@ -14,6 +14,7 @@
 #include <arpa/inet.h>
 #include <iostream>
 #include <thread>
+#include <mutex>
 #include <sstream>
 #include <nlohmann/json.hpp>
 #include <list>
@@ -25,7 +26,10 @@ class GameManager {
 private:
     static GameManager *singleton;
     std::list<Game*> games;
+    std::mutex mutexGames;
     std::list<Player*> players;
+    std::mutex mutexPlayers;
+    int sockfd;
     bool running = true;
 
     GameManager();
@@ -44,10 +48,10 @@ public:
 
     bool getRunning();
     bool isKnown(Player*);
-    Player* getPlayer(struct sockaddr_in) const;
+    Player* getPlayer(struct sockaddr_in);
     Game* createGame(Player*);
-    Game* getGame(Player*) const;
-    std::list<Game*> getGames() const;
+    Game* getGame(Player*);
+    std::list<Game*> getGames();
 
     ~GameManager();
 
