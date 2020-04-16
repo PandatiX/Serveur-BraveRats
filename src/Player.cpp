@@ -306,6 +306,7 @@ void Player::play(int sockfd, struct sockaddr_in their_addr, bool* threadJoinabl
     gameManager->endGame(_this);
 
     std::cout << "Client disconnection " << inet_ntoa(their_addr.sin_addr) << ":" << ntohs(their_addr.sin_port) << std::endl;
+    shutdown(sockfd, SHUT_RDWR);
     close(sockfd);
 
     *threadJoinable = true;
