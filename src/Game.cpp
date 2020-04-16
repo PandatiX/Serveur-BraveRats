@@ -255,11 +255,11 @@ bool Game::isJoinable() {
     return (player2 == nullptr && multiplayer);
 }
 
-bool Game::hasBegun() {
+bool Game::hasBegun() const {
     return began;
 }
 
-bool Game::isOpenMultiplayer() {
+bool Game::isOpenMultiplayer() const {
     return multiplayer;
 }
 

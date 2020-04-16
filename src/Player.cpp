@@ -162,7 +162,7 @@ void Player::play(int sockfd, struct sockaddr_in their_addr, bool* threadJoinabl
                 int *cardsP1 = _game->getCards(player1);
                 int *cardsP2 = _game->getCards(player2);
 
-                nlohmann::json jOut, jP1, jP2, jArrP1 = nlohmann::json::array(), jArrP2 = nlohmann::json::array();
+                nlohmann::json jOut, jArrP1 = nlohmann::json::array(), jArrP2 = nlohmann::json::array();
 
                 for (int i = 0; i < 8; i++) {
                     jArrP1.push_back(cardsP1[i]);
@@ -203,7 +203,6 @@ void Player::play(int sockfd, struct sockaddr_in their_addr, bool* threadJoinabl
             }
 
         } else if (buffer.substr(0, 4) == "CRDH") {
-            //TODO change this (CODE = 1 || CODE = 2 not really meanfull)
 
             if (_game != nullptr && _game->hasBegun()) {
 

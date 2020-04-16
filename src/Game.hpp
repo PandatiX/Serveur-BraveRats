@@ -34,8 +34,8 @@ public:
     int getScore(Player*);
     int* getCards(Player*);
     bool isJoinable();
-    bool hasBegun();
-    bool isOpenMultiplayer();
+    bool hasBegun() const;
+    bool isOpenMultiplayer() const;
     bool canPlay(Player*, int);
     bool play(Player*, int, VarianteAbstract*);
     std::list<Move*> getHistory() const;
